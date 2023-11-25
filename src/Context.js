@@ -54,49 +54,59 @@ const ContextProvider = ({ children }) => {
 
   const answerCall = () => {
     setCallAccepted(true);
-
-    const peer = new Peer({ initiator: false, trickle: false, stream,config: {
-      iceServers: [
-        { urls: 'stun:stun.l.google.com:19302' }, // Example STUN server
-        // Add more STUN or TURN servers as needed
-      ],
-    }, });
-
+  
+    const peer = new Peer({
+      initiator: false,
+      trickle: false,
+      stream,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' }, // Example STUN server
+          // Add more STUN or TURN servers as needed
+        ],
+      },
+    });
+  
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
     });
-
+  
     peer.on('stream', (currentStream) => {
       userVideo.current.srcObject = currentStream;
     });
-
+  
     peer.signal(call.signal);
-
+  
     connectionRef.current = peer;
   };
-
+  
   const callUser = (id) => {
-    const peer = new Peer({ initiator: true, trickle: false, stream,config: {
-      iceServers: [
-        { urls: 'stun:stun.l.google.com:19302' }, // Example STUN server
-        // Add more STUN or TURN servers as needed
-      ],
-    }, });
-
+    const peer = new Peer({
+      initiator: true,
+      trickle: false,
+      stream,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' }, // Example STUN server
+          // Add more STUN or TURN servers as needed
+        ],
+      },
+    });
+  
     peer.on('signal', (data) => {
       socket.emit('callUser', { userToCall: id, signalData: data, from: me, name });
     });
-
+  
     peer.on('stream', (currentStream) => {
       userVideo.current.srcObject = currentStream;
     });
-
+  
     socket.on('callAccepted', (signal) => {
       setCallAccepted(true);
-
+  
       peer.signal(signal);
     });
-
+  
     connectionRef.current = peer;
   };
 
