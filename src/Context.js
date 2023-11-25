@@ -15,7 +15,7 @@ const ContextProvider = ({ children }) => {
   const [call, setCall] = useState({});
   const [me, setMe] = useState('');
 
-  const myVideo = useRef();
+  const myVideo = useRef(null);
   const userVideo = useRef();
   const connectionRef = useRef();
 
@@ -35,7 +35,7 @@ const ContextProvider = ({ children }) => {
   // }, []);
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia || navigator.mediaDevices.oGetUserMedia;
+    /*navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia || navigator.mediaDevices.oGetUserMedia;
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
@@ -44,7 +44,15 @@ const ContextProvider = ({ children }) => {
           myVideo.current.srcObject = currentStream;
         // }
       });
-  
+  */
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+        myVideo.current.srcObject = currentStream;
+      })
+      .catch((error) => {
+        console.error('Error accessing media devices:', error);
+      });
     socket.on('me', (id) => setMe(id));
   
     socket.on('callUser', ({ from, name: callerName, signal }) => {
