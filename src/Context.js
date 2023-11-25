@@ -35,6 +35,7 @@ const ContextProvider = ({ children }) => {
   // }, []);
 
   useEffect(() => {
+    navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia || navigator.mediaDevices.oGetUserMedia;
     navigator.mediaDevices.getUserMedia({ video: {
       width:{min:1280},
       height:{min:720}
