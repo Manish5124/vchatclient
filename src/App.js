@@ -1,6 +1,5 @@
 import React from 'react';
 import { Typography, AppBar, styled } from '@mui/material';
-import Webcam from "react-webcam";
 import VideoPlayer from './components/VideoPlayer';
 import Sidebar from './components/Sidebar';
 import Notifications from './components/Notifications';
@@ -36,14 +35,13 @@ const App = () => {
 
   return (
     <div className={classes.wrapper}>
-      {/* <AppBar className={classes.appBar} position="static" color="inherit">
+      <AppBar className={classes.appBar} position="static" color="inherit">
         <Typography variant="h2" align="center">Video Chat</Typography>
-      </AppBar> */}
-      <Webcam/>
-      {/* <VideoPlayer /> */}
-      {/* <Sidebar>
+      </AppBar>
+      <VideoPlayer />
+      <Sidebar>
         <Notifications />
-      </Sidebar> */}
+      </Sidebar>
     </div>
   );
 };

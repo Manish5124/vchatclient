@@ -45,16 +45,23 @@ const ContextProvider = ({ children }) => {
         // }
       });
   */
-      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      .then((currentStream) => {
-        setStream(currentStream);
-      if (myVideo.current) {
-        myVideo.current.srcObject = currentStream;
-        }
-      })
-      .catch((error) => {
-        console.error('Error accessing media devices:', error);
-      });
+      // navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      // .then((currentStream) => {
+      //   setStream(currentStream);
+      // if (myVideo.current) {
+      //   myVideo.current.srcObject = currentStream;
+      //   }
+      // })
+      // .catch((error) => {
+      //   console.error('Error accessing media devices:', error);
+      // });
+     
+      if(myVideo.current.stream)
+      {
+        setStream(myVideo.current.stream);
+        console.log("stream=>",stream);
+      }
+      console.log("call=>",myVideo.current);
     socket.on('me', (id) => setMe(id));
   
     socket.on('callUser', ({ from, name: callerName, signal }) => {
@@ -69,7 +76,7 @@ const ContextProvider = ({ children }) => {
     const peer = new Peer({
       initiator: false,
       trickle: false,
-      stream,
+      stream:myVideo.current.stream,
       config: {
         iceServers: [
           { urls: 'stun:stun.l.google.com:19302' }, // Example STUN server
@@ -95,7 +102,7 @@ const ContextProvider = ({ children }) => {
     const peer = new Peer({
       initiator: true,
       trickle: false,
-      stream,
+      stream:myVideo.current.stream,
       config: {
         iceServers: [
           { urls: 'stun:stun.l.google.com:19302' }, // Example STUN server
