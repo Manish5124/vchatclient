@@ -36,16 +36,13 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia || navigator.mediaDevices.oGetUserMedia;
-    navigator.mediaDevices.getUserMedia({ video: {
-      width:{min:1280},
-      height:{min:720}
-    }, audio: true })
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
   
-        if (myVideo.current) {
+        // if (myVideo.current) {
           myVideo.current.srcObject = currentStream;
-        }
+        // }
       });
   
     socket.on('me', (id) => setMe(id));
