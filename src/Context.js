@@ -34,7 +34,7 @@ const ContextProvider = ({ children }) => {
   //   });
   // }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
     /*navigator.mediaDevices.getUserMedia = navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia || navigator.mediaDevices.msGetUserMedia || navigator.mediaDevices.oGetUserMedia;
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
@@ -45,21 +45,47 @@ const ContextProvider = ({ children }) => {
         // }
       });
   */
-      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+  //     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+  //     .then((currentStream) => {
+  //       setStream(currentStream);
+  //       myVideo.current.srcObject = currentStream;
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error accessing media devices:', error);
+  //     });
+  //   socket.on('me', (id) => setMe(id));
+  
+  //   socket.on('callUser', ({ from, name: callerName, signal }) => {
+  //     setCall({ isReceivingCall: true, from, name: callerName, signal });
+  //   });
+  // }, [myVideo]);
+  
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-        myVideo.current.srcObject = currentStream;
+        if (myVideo.current) {
+          myVideo.current.srcObject = currentStream;
+        }
       })
       .catch((error) => {
         console.error('Error accessing media devices:', error);
       });
-    socket.on('me', (id) => setMe(id));
+  }, [myVideo]);
   
+  useEffect(() => {
+    const socket = io('https://vchatserver-g60f.onrender.com');
+    socket.on('me', (id) => setMe(id));
     socket.on('callUser', ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
-  }, [myVideo]);
   
+    return () => {
+      socket.disconnect(); // Disconnect socket when component unmounts
+    };
+  }, []);
+  
+
 
   const answerCall = () => {
     setCallAccepted(true);
