@@ -48,7 +48,9 @@ const ContextProvider = ({ children }) => {
       navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
+      if (myVideo.current) {
         myVideo.current.srcObject = currentStream;
+        }
       })
       .catch((error) => {
         console.error('Error accessing media devices:', error);
