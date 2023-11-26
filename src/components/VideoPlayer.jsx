@@ -33,7 +33,7 @@ const VideoPlayer = () => {
           <Grid item xs={12} md={6}>
             <Typography variant="h5" gutterBottom>{name || 'Name'}</Typography>
             {/* <video playsInline muted ref={myVideo} autoPlay className={classes.video} /> */}
-            <Webcam audio={false} 
+            <Webcam audio={true} 
                     videoConstraints={{width:400,height:400,facingMode:"user"}} 
                     mirrored={true} 
                     ref={myVideo}
