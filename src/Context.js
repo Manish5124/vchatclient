@@ -45,17 +45,17 @@ const ContextProvider = ({ children }) => {
         // }
       });
   */
-      // navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      // .then((currentStream) => {
-      //   setStream(currentStream);
-      // if (myVideo.current) {
-      //   myVideo.current.srcObject = currentStream;
-      //   }
-      // })
-      // .catch((error) => {
-      //   console.error('Error accessing media devices:', error);
-      // });
-     
+      navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then((currentStream) => {
+        setStream(currentStream);
+   
+        myVideo.current.srcObject = currentStream;
+        console.log("stream in =>",currentStream);
+
+      })
+      .catch((error) => {
+        console.error('Error accessing media devices:', error);
+      });
       if(myVideo.current.stream)
       {
         setStream(myVideo.current.stream);
